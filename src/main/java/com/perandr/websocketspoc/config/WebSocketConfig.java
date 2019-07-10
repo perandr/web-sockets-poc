@@ -23,27 +23,28 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     @Override
     public void configureMessageBroker(MessageBrokerRegistry config) {
         config.enableSimpleBroker("/topic/", "/queue/");
-        config.setApplicationDestinationPrefixes("/app");
+//        config.setApplicationDestinationPrefixes("/orders");
     }
 
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
-        registry.addEndpoint("/orders").setHandshakeHandler(new DefaultHandshakeHandler(){
-            public boolean beforeHandshake(
-                    ServerHttpRequest request,
-                    ServerHttpResponse response,
-                    WebSocketHandler wsHandler,
-                    Map attributes) throws Exception {
-
-                if (request instanceof ServletServerHttpRequest) {
-                    ServletServerHttpRequest servletRequest
-                            = (ServletServerHttpRequest) request;
-                    HttpSession session = servletRequest
-                            .getServletRequest().getSession();
-                    attributes.put("sessionId", session.getId());
-                }
-                return true;
-            }
-        }).withSockJS();
+        registry.addEndpoint("/orders").withSockJS();
+//        registry.addEndpoint("/orders").setHandshakeHandler(new DefaultHandshakeHandler(){
+//            public boolean beforeHandshake(
+//                    ServerHttpRequest request,
+//                    ServerHttpResponse response,
+//                    WebSocketHandler wsHandler,
+//                    Map attributes) throws Exception {
+//
+//                if (request instanceof ServletServerHttpRequest) {
+//                    ServletServerHttpRequest servletRequest
+//                            = (ServletServerHttpRequest) request;
+//                    HttpSession session = servletRequest
+//                            .getServletRequest().getSession();
+//                    attributes.put("sessionId", session.getId());
+//                }
+//                return true;
+//            }
+//        }).withSockJS();
     }
 }
